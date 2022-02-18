@@ -136,6 +136,7 @@ def validation(request):
                 #add points
                 time_points=((timezone.now()-team.current_puzzle.deadline).seconds)//3600
                 print("Adding Time points for solving early!",time_points)
+                time_points=abs(time_points)
                 team.score+=team.current_puzzle.points+time_points
         except Exception as e:
             print(e)
