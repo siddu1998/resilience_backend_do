@@ -203,7 +203,7 @@ def get_location_hint(request):
 @api_view(http_method_names=['POST'])
 def get_image_url(request):
     data = request.data
-    full_password = data['full_password']
+    full_password = data['full_password'].replace(" ","")
     print(full_password,len(full_password))
     try:
         image_mapper_object = models.image_mapper.objects.get(full_password__iexact=full_password)
