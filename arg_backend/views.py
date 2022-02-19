@@ -7,6 +7,7 @@ from . import  models,serializers
 from rest_framework import viewsets
 from django.utils import timezone
 import json
+from datetime import datetime
 
 def index(request):
     return JsonResponse({"message":"Hello Unity! From Django"})
@@ -135,6 +136,7 @@ def validation(request):
             else:
                 #add points
                 time_points=((timezone.now()-team.current_puzzle.deadline).seconds)//3600
+                time_points+=abs((timezone.now()-team.current_puzzle.deadline).days)*24
                 print("Adding Time points for solving early!",time_points)
                 time_points=abs(time_points)
                 team.score+=team.current_puzzle.points+time_points
