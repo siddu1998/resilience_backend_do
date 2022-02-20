@@ -41,7 +41,8 @@ def add_points(request,team_username,points):
         team.score +=int(points)
         team.save()
         return JsonResponse({"message":f"[INFO] Awarded {points} to {team_username}"})
-    except:
+    except Exception as e:
+        print(e)
         return JsonResponse({"message":f"[ERROR] Failure in Adding Score API! Please check team_username and API format"})
 
 @api_view(http_method_names=['POST'])
@@ -135,13 +136,19 @@ def validation(request):
                 team.score+=points_to_add
             else:
                 #add points
-                time_points=((timezone.now()-team.current_puzzle.deadline).seconds)//3600
-                time_points+=abs((timezone.now()-team.current_puzzle.deadline).days)*24
-                print("Adding Time points for solving early!",time_points)
+                print(timezone.now())
+                print(team.current_puzzle.deadline)
+                print((timezone.now()-team.current_puzzle.deadline).total_seconds())
+
+                time_points=((timezone.now()-team.current_puzzle.deadline).total_seconds())//3600
+                print(abs(time_points))
+                #time_points+=abs((timezone.now()-team.current_puzzle.deadline).days)*24
+                print("Adding Time points for solving early!",abs(time_points))
                 time_points=abs(time_points)
                 team.score+=team.current_puzzle.points+time_points
         except Exception as e:
             print(e)
+            print(data)
             team.score+=team.current_puzzle.points
 
         #find next puzzle
@@ -181,7 +188,8 @@ def get_hint(request):
         team.score=max(team.score-10,0)
         team.save()
         return JsonResponse({"hint": hint})
-    except:
+    except Exception as e:
+        print(e)
         return JsonResponse({"hint":"Sorry! No More hints!"})            
    
 
@@ -199,7 +207,8 @@ def get_location_hint(request):
 
     try:
         return JsonResponse({"hint":location_hints["hints"][int(index)]})        
-    except:
+    except Exception as e:
+        print(e)
         return JsonResponse({"hint":"No Hint"})
 
 
@@ -222,7 +231,7 @@ def get_image_url(request):
     except Exception as e:
         print(e)
         print(full_password)
-        print("Weong password")
+        print("Wrong password")
         return JsonResponse({
             "image_url":"https://www.interstellarrift.com/wiki/images/0/0d/Access_Denied.png"
             })
