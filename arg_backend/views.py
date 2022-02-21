@@ -105,7 +105,7 @@ def add_points_player(request):
 
     player_instance = models.Players.objects.get(discord_username=discord_username)
     team            = player_instance.team
-    print("[INFO] Awarded Points", points)
+    print("[INFO] Discord Awarded Points", points)
     team.score+=points
     team.save()
     
@@ -132,7 +132,7 @@ def validation(request):
                 #reduce points and add
                 print("DEDUCTING POITNS SINCE YOU Missed the deadline!")
                 points_to_add = (team.current_puzzle.points//2)
-                print(points_to_add)
+                print(f"[INFO] ADDING POINTS to {discord_username}",points_to_add)
                 team.score+=points_to_add
             else:
                 #add points
@@ -143,7 +143,7 @@ def validation(request):
                 time_points=((timezone.now()-team.current_puzzle.deadline).total_seconds())//3600
                 print(abs(time_points))
                 #time_points+=abs((timezone.now()-team.current_puzzle.deadline).days)*24
-                print("Adding Time points for solving early!",abs(time_points))
+                print(f"Adding Time points for solving early!{discord_username}",abs(time_points))
                 time_points=abs(time_points)
                 team.score+=team.current_puzzle.points+time_points
         except Exception as e:
@@ -166,7 +166,7 @@ def validation(request):
     else:
         #deducted points   
         team.score=team.score-10 #based on a rubric
-        print("Deducting points for wrong answer")
+        print(f"Deducting points for wrong answer {discord_username}")
         team.save()
         return JsonResponse({"message":False})
          
@@ -186,6 +186,7 @@ def get_hint(request):
         hint = hints["hints"][current_hint]
         team.current_hint+=1
         team.score=max(team.score-10,0)
+        print(f"deducting points {discord_username} for using hints")
         team.save()
         return JsonResponse({"hint": hint})
     except Exception as e:
