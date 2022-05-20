@@ -33,6 +33,8 @@ class Teams(models.Model):
     
     current_puzzle =  models.ForeignKey(Puzzle,on_delete=models.SET_NULL,null=True,blank=True)
     current_hint   = models.IntegerField(null=True,blank=False,default=0)
+
+    team_code = models.CharField(null=True,blank=True,unique=False,max_length=4)
     
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="created at", null=True)
 
