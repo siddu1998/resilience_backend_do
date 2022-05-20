@@ -20,8 +20,7 @@ urlpatterns = [
     path('get_image_url',views.get_image_url,name='get_image_url'),
     path('getSecondHalf',views.getSecondHalf,name='getSecondHalf'),
     path('add_points_player',views.add_points_player,name='add_points_player'),
-
-
+    path('authenticate',views.authenticate_team,name='authenticate'),
     re_path('add_points/(?P<team_username>[\w.@+-]+)/(?P<points>[\w.@+-]+)$', views.add_points),
     re_path('get_next_puzzle/(?P<puzzle_id>[\w.@+-]+)$', views.get_next_puzzle),
 

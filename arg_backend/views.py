@@ -240,6 +240,23 @@ def get_image_url(request):
     
 
 
+@api_view(http_method_names=['POST'])
+def authenticate_team(request):
+    data = request.data
+    authentication_code = data['auth_code']
+    try:
+        team_instance = models.Teams.objects.get(team_code=authentication_code)
+        return JsonResponse({
+            "team_username":team_instance.team_username,
+        })
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({})
+
+
+
+
 
 
 @api_view(http_method_names=['POST'])
