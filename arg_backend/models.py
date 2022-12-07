@@ -88,3 +88,5 @@ class image_mapper(models.Model):
     
     def __str__(self):
         return str(self.code)
+
+

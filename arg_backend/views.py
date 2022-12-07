@@ -285,7 +285,15 @@ def getSecondHalf(request):
 @api_view(http_method_names=['GET'])
 def createAndServeImage(request):
     image = cv2.imread('/home/sai/resilience_backend/arg_backend/commute-options-walking-map.jpg')
-    image = cv2.putText(image, 'HEY YOU MAP', (100,100), 50, 
-                   1, (255,0,0), 2, cv2.LINE_AA)
-    cv2.imwrite('image.png',image)
-    return JsonResponse({'hello':"hello"})
+    image = cv2.putText(image, 'Progress', (100,100), 50, 
+                   1, (0,255,0), 2, cv2.LINE_AA)
+    cv2.imwrite('/home/sai/resilience_backend/arg_backend/playback_maps/imageX.jpg',image)
+    try:
+        with open('/home/sai/resilience_backend/arg_backend/playback_maps/imageX.jpg', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/jpeg")
+    except IOError:
+        red = Image.new('RGBA', (1, 1), (255,0,0,0))
+        response = HttpResponse(content_type="image/jpeg")
+        red.save(response, "JPEG")
+        return response
+
