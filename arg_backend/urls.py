@@ -23,5 +23,6 @@ urlpatterns = [
     path('authenticate',views.authenticate_team,name='authenticate'),
     re_path('add_points/(?P<team_username>[\w.@+-]+)/(?P<points>[\w.@+-]+)$', views.add_points),
     re_path('get_next_puzzle/(?P<puzzle_id>[\w.@+-]+)$', views.get_next_puzzle),
+    path('createAndServeImage',views.createAndServeImage,name='createAndServeImage'),
 
 ]

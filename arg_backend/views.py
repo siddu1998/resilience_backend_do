@@ -8,6 +8,10 @@ from rest_framework import viewsets
 from django.utils import timezone
 import json
 from datetime import datetime
+import sys
+sys.path.append('/home/sai/.local/lib/python3.8/site-packages/')
+import cv2
+
 
 def index(request):
     return JsonResponse({"message":"Hello Unity! From Django"})
@@ -271,3 +275,17 @@ def getSecondHalf(request):
             return JsonResponse({"second_half":"Hmmm..This Marker has issues contact the Loyalists"})
     else:
             return JsonResponse({"second_half":"The Marker is Time Gated! The Loyalists are watching and patience is an essential Virtue"})
+
+
+
+
+
+
+
+@api_view(http_method_names=['GET'])
+def createAndServeImage(request):
+    image = cv2.imread('/home/sai/resilience_backend/arg_backend/commute-options-walking-map.jpg')
+    image = cv2.putText(image, 'HEY YOU MAP', (100,100), 50, 
+                   1, (255,0,0), 2, cv2.LINE_AA)
+    cv2.imwrite('image.png',image)
+    return JsonResponse({'hello':"hello"})
