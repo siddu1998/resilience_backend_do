@@ -284,10 +284,31 @@ def getSecondHalf(request):
 
 @api_view(http_method_names=['GET'])
 def createAndServeImage(request):
+    # Read the image and create a copy
     image = cv2.imread('/home/sai/resilience_backend/arg_backend/commute-options-walking-map.jpg')
-    image = cv2.putText(image, 'Progress', (100,100), 50, 
-                   1, (0,255,0), 2, cv2.LINE_AA)
-    cv2.imwrite('/home/sai/resilience_backend/arg_backend/playback_maps/imageX.jpg',image)
+    image_copy = image.copy()
+
+    # Define the points for the dots and the lines
+    dot1 = (50, 20)
+    dot2 = (100, 40)
+    dot3 = (140, 60)
+    dot4 = (164, 100)
+    line1 = (dot1, dot2)
+    line2 = (dot2, dot3)
+    line3 = (dot3, dot4)
+
+    # Draw the dots and the lines
+    cv2.circle(image_copy, dot1, 10, (0, 0, 255), -1)
+    cv2.circle(image_copy, dot2, 10, (0, 0, 255), -1)
+    cv2.circle(image_copy, dot3, 10, (0, 0, 255), -1)
+    cv2.circle(image_copy, dot4, 10, (0, 0, 255), -1)
+    cv2.line(image_copy, line1[0], line1[1], (255, 0, 0), 2)
+    cv2.line(image_copy, line2[0], line2[1], (255, 0, 0), 2)
+    cv2.line(image_copy, line3[0], line3[1], (255, 0, 0), 2)
+
+    # Save and show the output image
+    cv2.imwrite('/home/sai/resilience_backend/arg_backend/playback_maps/imageX.jpg',image_copy)
+
     try:
         with open('/home/sai/resilience_backend/arg_backend/playback_maps/imageX.jpg', "rb") as f:
             return HttpResponse(f.read(), content_type="image/jpeg")
